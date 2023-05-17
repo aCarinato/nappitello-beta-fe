@@ -7,15 +7,20 @@ import axios from 'axios';
 // components
 import CheckoutForm from './CheckoutForm';
 
+// load stripe outside component render
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+
 function Payment(props) {
-  const [stripePromise, setStripePromise] = useState(null);
+  //   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState('');
 
-  useEffect(() => {
-    setStripePromise(
-      loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`)
-    );
-  }, []);
+  //   useEffect(() => {
+  //     setStripePromise(
+  //       loadStripe(`${process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}`)
+  //     );
+  //   }, []);
 
   const createPaymentIntent = async () => {
     const res = await axios.post(
