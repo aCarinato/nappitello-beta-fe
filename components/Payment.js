@@ -69,7 +69,7 @@ function Payment(props) {
 
   return (
     <div>
-      <h1>React Stripe Payment</h1>
+      <h1>Stripe Payment</h1>
       {stripePromise && clientSecret !== '' && (
         <Elements stripe={stripePromise} options={options}>
           <CheckoutForm />
