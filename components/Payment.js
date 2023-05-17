@@ -27,8 +27,8 @@ function Payment(props) {
       //     },
       //   }
     );
-
-    // console.log(res);
+    console.log('createPaymentIntent()');
+    console.log(res);
 
     return res.data.clientSecret;
   };
@@ -45,7 +45,7 @@ function Payment(props) {
       });
   }, []);
 
-  console.log(clientSecret);
+  //   console.log(clientSecret);
 
   const appearance = {
     theme: 'stripe', // flat, night,
