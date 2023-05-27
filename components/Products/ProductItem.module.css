@@ -1,0 +1,10 @@
+.box-0 {
+  width: 31rem;
+  border: 1px solid var(--main-primary-color);
+  /* box-shadow: 0 1px 4px var(--main-text-color),
+    0 1px 3px 0.5px var(--main-text-color);
+  border-radius: 8px; */
+  overflow: hidden;
+  text-decoration: none;
+  padding: 1.2rem;
+}

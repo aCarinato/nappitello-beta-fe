@@ -13,6 +13,7 @@ const stripePromise = loadStripe(
 );
 
 function Payment(props) {
+  const { totalPrice } = props;
   //   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState('');
 
@@ -24,16 +25,16 @@ function Payment(props) {
 
   const createPaymentIntent = async () => {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/stripe/create-payment-intent`
-      //   { totalPrice },
+      `${process.env.NEXT_PUBLIC_API}/stripe/create-payment-intent`,
+      { totalPrice }
       //   {
       //     headers: {
       //       Authorization: `Bearer ${authState.token}`,
       //     },
       //   }
     );
-    console.log('createPaymentIntent()');
-    console.log(res);
+    // console.log('createPaymentIntent()');
+    // console.log(res);
 
     return res.data.clientSecret;
   };

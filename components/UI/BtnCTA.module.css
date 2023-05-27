@@ -1,0 +1,15 @@
+.box-0 {
+  background-color: var(--main-cta-color);
+  /* color: var(--main-text-color); */
+  color: white;
+  padding: 0.6rem 2.2rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: bolder;
+  border: none;
+  cursor: pointer;
+}
+
+.box-0:hover {
+  background-color: var(--main-cta-shade-color);
+}
