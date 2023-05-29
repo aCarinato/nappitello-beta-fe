@@ -58,12 +58,7 @@ function MainHeader() {
 
   return (
     <header className={classes['box-0']}>
-      <div
-        className={classes['logo']}
-        // onClick={() =>
-        //   router.push('https://demo.cooldesign.it/gruppo-chronos/')
-        // }
-      >
+      <div className={classes['logo']} onClick={() => router.push('/')}>
         <Image
           src="/images/logo/logo-social.png"
           alt="Nappitello logo"

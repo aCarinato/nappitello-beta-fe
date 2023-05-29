@@ -13,10 +13,22 @@ function PagamentoPage() {
     cart: { cartItems },
   } = state;
 
-  const [totalPrice, setTotalPrice] = useState('0');
+  const [totalPrice, setTotalPrice] = useState(null);
 
-  //   if (cart) console.log(cart);
-  console.log(state.cart);
+  // function to round to 2 decimals
+  const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
+
+  const itemsPrice = round2(
+    cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
+  );
+
+  //   console.log(itemsPrice);
+
+  useEffect(() => {
+    setTotalPrice(itemsPrice);
+  }, [itemsPrice]);
+
+  //   console.log(`totalPrice: ${totalPrice}`);
 
   // routing
   const router = useRouter();
@@ -31,7 +43,7 @@ function PagamentoPage() {
     }
   }, [locale]);
 
-  return <div>{/* <Payment totalPrice={totalPrice} /> */}</div>;
+  return <div>{totalPrice && <Payment totalPrice={totalPrice} />}</div>;
 }
 
 export default PagamentoPage;
