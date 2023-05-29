@@ -52,9 +52,6 @@ function Payment(props) {
       setClientSecret(res);
       // return secret;
     });
-    // .then((secret) => {
-    //   setClientSecret(secret);
-    // });
   }, []);
 
   const appearance = {

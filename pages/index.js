@@ -1,5 +1,5 @@
 // components
-import Payment from '../components/Payment';
+// import Payment from '../components/Payment';
 import ProductItem from '../components/Products/ProductItem';
 // own data
 import { products } from '../data/products';

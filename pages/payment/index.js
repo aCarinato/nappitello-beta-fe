@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 // components
-import Payment from '../../components/Payment';
+import Payment from '../../components/Payment/Payment';
 // context
 import { Store } from '../../context/Store';
 

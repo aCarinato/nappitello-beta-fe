@@ -1,5 +1,6 @@
 // react / next
 import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 // stripe
 import {
   useStripe,
@@ -8,7 +9,11 @@ import {
   CardElement,
 } from '@stripe/react-stripe-js';
 // components
-import SpinningLoader from '../components/UI/SpinningLoader';
+import SpinningLoader from '../UI/SpinningLoader';
+import BtnCTA from '../UI/BtnCTA';
+// styles
+import classes from './CheckoutForm.module.css';
+
 // state
 // import { Store } from '../context/Store';
 
@@ -18,6 +23,10 @@ function CheckoutForm() {
 
   // const { state, dispatch } = useContext(Store);
   // const { cart } = state;
+
+  // routing
+  const router = useRouter();
+  const { locale } = router;
 
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -104,14 +113,30 @@ function CheckoutForm() {
     //     <SpinningLoader />
     //   ) : (
     <form id="payment-form" onSubmit={handleSubmit}>
-      {/* <CardElement /> // only for cards */}
       <PaymentElement options={paymentElementOptions} />
-      <button disabled={isProcessing} id="submit">
+      {/* <BtnCTA
+        label={locale === 'it' ? 'Completa pagamento' : 'Complete Payment'}
+        onClickAction={handleSubmit}
+      /> */}
+      <br></br>
+      <button
+        className={classes['btn-cta']}
+        disabled={isProcessing}
+        id="submit"
+      >
         <span id="button-text">
-          {isProcessing ? 'Processing ... ' : 'Pay now'}
+          {locale === 'en' && isProcessing
+            ? 'Processing... '
+            : locale === 'en' && !isProcessing
+            ? 'Pay now'
+            : locale === 'it' && isProcessing
+            ? 'In corso... '
+            : 'Completa pagamento'}
+          {/* {locale === 'it' && isProcessing
+            ? 'Processing... '
+            : 'Completa pagamento'} */}
         </span>
       </button>
-      {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>
     //   )}
