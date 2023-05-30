@@ -1,12 +1,12 @@
 // react / next
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 // stripe
 import {
   useStripe,
   useElements,
   PaymentElement,
-  CardElement,
+  // CardElement,
 } from '@stripe/react-stripe-js';
 // components
 import SpinningLoader from '../UI/SpinningLoader';
@@ -30,37 +30,6 @@ function CheckoutForm() {
 
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
-
-  useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret'
-    );
-
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent.status) {
-        case 'succeeded':
-          setMessage('Payment succeeded!');
-          break;
-        case 'processing':
-          setMessage('Your payment is processing.');
-          break;
-        case 'requires_payment_method':
-          setMessage('Your payment was not successful, please try again.');
-          break;
-        default:
-          setMessage('Something went wrong.');
-          break;
-      }
-    });
-  }, [stripe]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,7 +56,9 @@ function CheckoutForm() {
       payload.error.type === 'card_error' ||
       payload.error.type === 'validation_error'
     ) {
-      setMessage(error.message);
+      console.log('AN ERROR OCCURRED');
+      console.log(payload.error.type);
+      setMessage(payload.error.message);
     } else {
       // setMessage('An unexpected error occured.');
       // dispatch({ type: 'CART_CLEAR_ITEMS' });
