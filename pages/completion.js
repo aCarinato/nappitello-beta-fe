@@ -1,5 +1,6 @@
 // react / next
 import { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
 // context
 import { Store } from '../context/Store';
 // component
@@ -14,6 +15,12 @@ const stripePromise = loadStripe(
 );
 
 function CompletionPage() {
+  // routing
+  const router = useRouter();
+  const { locale } = router;
+
+  console.log(`locale from completion.js: ${locale}`);
+
   const { state, dispatch } = useContext(Store);
   const { cart } = state;
 
@@ -29,6 +36,15 @@ function CompletionPage() {
   }, []);
 
   const options = {};
+
+  // useEffect(() => {
+  //   if (locale === 'it') {
+  //     router.push('/pagamento');
+  //   }
+  //   if (locale === 'de') {
+  //     router.push('/wagen');
+  //   }
+  // }, [locale]);
 
   return (
     <div>

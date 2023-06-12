@@ -12,6 +12,8 @@ function PaymentStatus() {
   const router = useRouter();
   const { locale } = router;
 
+  // console.log(`locale from PaymentStatus.js: ${locale}`);
+
   useEffect(() => {
     if (!stripe) {
       return;
