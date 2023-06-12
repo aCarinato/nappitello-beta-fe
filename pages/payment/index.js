@@ -6,6 +6,8 @@ import Payment from '../../components/Payment/Payment';
 // context
 import { Store } from '../../context/Store';
 
+// NEW CLIENT SECRET
+
 function PaymentPage() {
   const { state, dispatch } = useContext(Store);
 
