@@ -14,13 +14,12 @@ function CartList(props) {
   const { items, removeItem, updateItem } = props;
 
   const checkoutHandler = () => {
-    console.log('check');
     // if (authState !== null && authState.token !== '') {
     if (locale === 'en') router.push('/payment');
     if (locale === 'it') router.push('/pagamento');
     if (locale === 'de') router.push('/betalen');
     // } else {
-    //   router.push('/login');
+    // router.push('/login');
     // }
   };
 

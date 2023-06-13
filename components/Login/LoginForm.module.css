@@ -1,0 +1,15 @@
+.cta-box {
+  margin: 0.8rem 0;
+}
+
+.switch-box {
+  width: 34rem;
+  margin: auto;
+  padding: 1.6rem 0;
+  font-size: 2rem;
+}
+
+.switch {
+  text-decoration: underline;
+  cursor: pointer;
+}

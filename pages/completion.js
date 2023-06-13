@@ -3,6 +3,7 @@ import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 // context
 import { Store } from '../context/Store';
+import { useMainContext } from '../context/User';
 // component
 import PaymentStatus from '../components/Payment/PaymentStatus';
 // stripe
@@ -15,11 +16,15 @@ const stripePromise = loadStripe(
 );
 
 function CompletionPage() {
+  const { language } = useMainContext();
+
+  // console.log(`language from completion.js: ${language}`);
+
   // routing
   const router = useRouter();
   const { locale } = router;
 
-  console.log(`locale from completion.js: ${locale}`);
+  // console.log(`locale from completion.js: ${locale}`);
 
   const { state, dispatch } = useContext(Store);
   const { cart } = state;

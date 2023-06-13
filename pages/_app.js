@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Layout from '../components/Layout/Layout';
 // context
 import { StoreProvider } from '../context/Store';
+import { UserContextProvider } from '../context/User';
 
 // import { ContextProvider } from '../context/Context';
 // import { PayPalScriptProvider } from '@paypal/react-paypal-js';
@@ -11,15 +12,18 @@ import { StoreProvider } from '../context/Store';
 function MyApp({ Component, pageProps }) {
   return (
     // <ContextProvider>
-    <StoreProvider>
-      <Layout>
-        <Head>
-          <title>Nappitello</title>
-          <meta name="description" content="Olio biologico 100% pugliese" />
-        </Head>
-        <Component {...pageProps} />
-      </Layout>
-    </StoreProvider>
+    <UserContextProvider>
+      <StoreProvider>
+        <Layout>
+          <Head>
+            <title>Nappitello</title>
+            <meta name="description" content="Olio biologico 100% pugliese" />
+          </Head>
+          <Component {...pageProps} />
+        </Layout>
+      </StoreProvider>
+    </UserContextProvider>
+
     // </ContextProvider>
   );
 }
