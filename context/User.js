@@ -1,6 +1,8 @@
 // react / next
 // import { useRouter } from 'next/router';
 import React, { useContext, useState, useEffect, useRef } from 'react';
+// libs
+import axios from 'axios';
 
 const mainContext = React.createContext({
   authState: {},
@@ -22,7 +24,9 @@ export function UserContextProvider({ children }) {
     stripeId: '',
   });
 
-  console.log(authState);
+  // console.log(authState);
+
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -33,10 +37,39 @@ export function UserContextProvider({ children }) {
     }
   }, []);
 
+  const getCurrentUser = async (token) => {
+    try {
+      // console.log('Executing getCurrentUser()');
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/auth/current-user`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (data.success) {
+        // setOk(true);
+        setCurrentUser(data.user);
+      }
+    } catch (err) {
+      //   router.push('/login');
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (authState && authState.token.length > 0) {
+      getCurrentUser(authState.token);
+    }
+  }, [authState]);
+
+  // console.log(currentUser);
+
   const loginHandler = (name, email, token, isAdmin, stripeId) => {
     //  saves the credentials in local storage and in the state
     // localStorage.setItem('token', token);
-
+    getCurrentUser(token);
     // console.log(username, email, token, isAdmin);
 
     localStorage.setItem(
@@ -69,10 +102,12 @@ export function UserContextProvider({ children }) {
       isAdmin: '',
       stripeId: '',
     });
+    setCurrentUser(null);
   };
 
   const value = {
     authState: authState,
+    currentUser,
     login: loginHandler,
     logout: logoutHandler,
   };
