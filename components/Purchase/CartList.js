@@ -6,21 +6,25 @@ import classes from './CartList.module.css';
 import BtnCTA from '../UI/BtnCTA';
 // libs
 import { Icon } from '@iconify/react';
+// context
+import { useMainContext } from '../../context/User';
 
 function CartList(props) {
+  const { authState } = useMainContext();
+
   const router = useRouter();
   const { locale } = router;
 
   const { items, removeItem, updateItem } = props;
 
   const checkoutHandler = () => {
-    // if (authState !== null && authState.token !== '') {
-    if (locale === 'en') router.push('/payment');
-    if (locale === 'it') router.push('/pagamento');
-    if (locale === 'de') router.push('/betalen');
-    // } else {
-    // router.push('/login');
-    // }
+    if (authState !== null && authState.token !== '') {
+      if (locale === 'en') router.push('/payment');
+      if (locale === 'it') router.push('/pagamento');
+      if (locale === 'de') router.push('/betalen');
+    } else {
+      router.push('/login');
+    }
   };
 
   return (

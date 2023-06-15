@@ -8,6 +8,8 @@ import { Elements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 // components
 import CheckoutForm from './CheckoutForm';
+// context
+import { useMainContext } from '../../context/User';
 
 // load stripe outside component render to avoid recreating stripe object on every render
 const stripePromise = loadStripe(
@@ -15,6 +17,8 @@ const stripePromise = loadStripe(
 );
 
 function Payment(props) {
+  const { authState } = useMainContext();
+
   const { totalPrice } = props;
 
   const router = useRouter();
@@ -35,7 +39,7 @@ function Payment(props) {
   const createPaymentIntent = async () => {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API}/stripe/create-payment-intent`,
-      { totalPrice }
+      { email: authState.email, stripeId: authState.stripeId, totalPrice }
       //   {
       //     headers: {
       //       Authorization: `Bearer ${authState.token}`,

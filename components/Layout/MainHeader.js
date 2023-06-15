@@ -11,6 +11,7 @@ import { Store } from '../../context/Store';
 // import DropdownMenu from './DropdownMenu';
 // libs
 // import axios from 'axios';
+import { Icon } from '@iconify/react';
 
 function MainHeader() {
   const { state, dispatch } = useContext(Store);
@@ -72,75 +73,31 @@ function MainHeader() {
         />
       </div>
       <div className={classes['box-1']}>
-        {locale === 'it' && (
-          <div
-            className={classes['container-cart']}
-            onClick={() => router.push('/carrello')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M2.5 4.25a.75.75 0 0 1 .75-.75h.558c.95 0 1.52.639 1.845 1.233c.217.396.374.855.497 1.271A1.29 1.29 0 0 1 6.25 6h12.498c.83 0 1.43.794 1.202 1.593l-1.828 6.409a2.75 2.75 0 0 1-2.644 1.996H9.53a2.75 2.75 0 0 1-2.652-2.022l-.76-2.772l-1.26-4.248l-.001-.008c-.156-.567-.302-1.098-.52-1.494C4.128 5.069 3.96 5 3.809 5H3.25a.75.75 0 0 1-.75-.75ZM9 21a2 2 0 1 0 0-4a2 2 0 0 0 0 4Zm7 0a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"
-              />
-            </svg>
-            {cart.cartItems.length > 0 && (
-              <span className={classes['cart-items']}>
-                {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-              </span>
-            )}
-          </div>
-        )}
-        {locale === 'en' && (
-          <div
-            className={classes['container-cart']}
-            onClick={() => router.push('/cart')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M2.5 4.25a.75.75 0 0 1 .75-.75h.558c.95 0 1.52.639 1.845 1.233c.217.396.374.855.497 1.271A1.29 1.29 0 0 1 6.25 6h12.498c.83 0 1.43.794 1.202 1.593l-1.828 6.409a2.75 2.75 0 0 1-2.644 1.996H9.53a2.75 2.75 0 0 1-2.652-2.022l-.76-2.772l-1.26-4.248l-.001-.008c-.156-.567-.302-1.098-.52-1.494C4.128 5.069 3.96 5 3.809 5H3.25a.75.75 0 0 1-.75-.75ZM9 21a2 2 0 1 0 0-4a2 2 0 0 0 0 4Zm7 0a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"
-              />
-            </svg>
-            {cart.cartItems.length > 0 && (
-              <sup className={classes['cart-items']}>
-                {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-              </sup>
-            )}
-          </div>
-        )}
-        {locale === 'de' && (
-          <div
-            className={classes['container-cart']}
-            onClick={() => router.push('/wagen')}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fill="currentColor"
-                d="M2.5 4.25a.75.75 0 0 1 .75-.75h.558c.95 0 1.52.639 1.845 1.233c.217.396.374.855.497 1.271A1.29 1.29 0 0 1 6.25 6h12.498c.83 0 1.43.794 1.202 1.593l-1.828 6.409a2.75 2.75 0 0 1-2.644 1.996H9.53a2.75 2.75 0 0 1-2.652-2.022l-.76-2.772l-1.26-4.248l-.001-.008c-.156-.567-.302-1.098-.52-1.494C4.128 5.069 3.96 5 3.809 5H3.25a.75.75 0 0 1-.75-.75ZM9 21a2 2 0 1 0 0-4a2 2 0 0 0 0 4Zm7 0a2 2 0 1 0 0-4a2 2 0 0 0 0 4Z"
-              />
-            </svg>
-            {cart.cartItems.length > 0 && (
-              <sup className={classes['cart-items']}>
-                {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-              </sup>
-            )}
-          </div>
-        )}
+        <div
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            if (locale === 'it') router.push('/profilo');
+            if (locale === 'en') router.push('/profile');
+          }}
+        >
+          <Icon icon="iconamoon:profile-circle" />
+        </div>
+        <div
+          className={classes['container-cart']}
+          onClick={() => {
+            if (locale === 'it') router.push('/carrello');
+            if (locale === 'en') router.push('/cart');
+            if (locale === 'de') router.push('/wagen');
+          }}
+        >
+          <Icon icon="bi:cart-fill" />
+          {cart.cartItems.length > 0 && (
+            <sup className={classes['cart-items']}>
+              {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+            </sup>
+          )}
+        </div>
+
         <div className={classes['container-locales']}>
           <div
             className={classes['container-current-locale']}

@@ -16,8 +16,9 @@ function MyApp({ Component, pageProps }) {
       <StoreProvider>
         <Layout>
           <Head>
-            <title>Nappitello</title>
+            <title>eCommerce</title>
             <meta name="description" content="Olio biologico 100% pugliese" />
+            <meta name="robots" content="noindex"></meta>
           </Head>
           <Component {...pageProps} />
         </Layout>

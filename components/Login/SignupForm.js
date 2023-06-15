@@ -8,8 +8,12 @@ import TextInput from '../UI/Form/TextInput';
 import BtnCTA from '../UI/BtnCTA';
 // libs
 import axios from 'axios';
+// context
+import { useMainContext } from '../../context/User';
 
 function SignupForm(props) {
+  const { login } = useMainContext();
+
   const { onSwitchMode } = props;
 
   //   language
@@ -55,13 +59,23 @@ function SignupForm(props) {
 
   const handleSignup = async () => {
     if (formIsValid) {
+      let language;
+      if (locale === 'it') {
+        language = 'it';
+      }
+
+      if (locale === 'en') {
+        language = 'en';
+      }
+
       const signupData = {
         name,
         surname,
         email,
         password,
+        language,
       };
-      console.log(signupData);
+      //   console.log(signupData);
 
       try {
         const res = await axios.post(
@@ -71,21 +85,43 @@ function SignupForm(props) {
 
         console.log(res);
 
-        // if (res.data.error) {
-        //   // setShowError(true);
-        //   //   setError(res.data.error);
-        //   console.log(res.data.error);
-        // } else {
-        //   login(
-        //     res.data.username,
-        //     res.data.email,
-        //     res.data.token,
-        //     res.data.isAdmin
-        //   );
-        //   // router.push(`/profilo/${res.data.username}`);
-        //   //   router.push(`/profilo`);
-        //   console.log(authState);
-        // }
+        if (res.data.error) {
+          // setShowError(true);
+          //   setError(res.data.error);
+          console.log(res.data.error);
+        } else {
+          try {
+            const loginData = {
+              email,
+              password,
+            };
+            const res = await axios.post(
+              `${process.env.NEXT_PUBLIC_API}/auth/login`,
+              loginData
+            );
+
+            // console.log(res);
+
+            if (res.data.error) {
+              // setShowError(true);
+              //   setError(res.data.error);
+              console.log(res.data.error);
+            } else {
+              login(
+                res.data.name,
+                res.data.email,
+                res.data.token,
+                res.data.isAdmin,
+                res.data.stripeId
+              );
+              // router.push(`/profilo/${res.data.username}`);
+              router.push(`/profilo`);
+              // console.log(authState);
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        }
       } catch (err) {
         console.log(err);
       }

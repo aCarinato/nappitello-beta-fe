@@ -8,8 +8,14 @@ import TextInput from '../UI/Form/TextInput';
 import BtnCTA from '../UI/BtnCTA';
 // libs
 import axios from 'axios';
+// context
+import { useMainContext } from '../../context/User';
 
 function LoginForm(props) {
+  // context
+  const { login, authState } = useMainContext();
+
+  // props
   const { onSwitchMode } = props;
 
   //   language
@@ -46,23 +52,24 @@ function LoginForm(props) {
           loginData
         );
 
-        console.log(res);
+        // console.log(res);
 
-        // if (res.data.error) {
-        //   // setShowError(true);
-        //   //   setError(res.data.error);
-        //   console.log(res.data.error);
-        // } else {
-        //   login(
-        //     res.data.username,
-        //     res.data.email,
-        //     res.data.token,
-        //     res.data.isAdmin
-        //   );
-        //   // router.push(`/profilo/${res.data.username}`);
-        //   //   router.push(`/profilo`);
-        //   console.log(authState);
-        // }
+        if (res.data.error) {
+          // setShowError(true);
+          //   setError(res.data.error);
+          console.log(res.data.error);
+        } else {
+          login(
+            res.data.name,
+            res.data.email,
+            res.data.token,
+            res.data.isAdmin,
+            res.data.stripeId
+          );
+          // router.push(`/profilo/${res.data.username}`);
+          router.push(`/profilo`);
+          // console.log(authState);
+        }
       } catch (err) {
         console.log(err);
       }

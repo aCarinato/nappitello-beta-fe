@@ -1,28 +1,80 @@
 // react / next
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import React, { useContext, useState, useEffect, useRef } from 'react';
 
-const mainContext = React.createContext();
+const mainContext = React.createContext({
+  authState: {},
+  login: () => {},
+  logout: () => {},
+});
 
 export function useMainContext() {
   return useContext(mainContext);
 }
 
 export function UserContextProvider({ children }) {
-  const router = useRouter();
-  const { locale } = router;
+  // USER AUTHENTICATION
+  const [authState, setAuthState] = useState({
+    name: '',
+    email: '',
+    token: '',
+    isAdmin: '',
+    stripeId: '',
+  });
 
-  const [language, setLanguage] = useState('');
+  console.log(authState);
 
   useEffect(() => {
-    if (locale === 'it') setLanguage('it');
-    if (locale === 'en') setLanguage('en');
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('nappitello-user') !== null) {
+        setAuthState(JSON.parse(localStorage.getItem('nappitello-user')));
+        // setAdminState(JSON.parse(localStorage.getItem('nappi-admin-auth')));
+      }
+    }
   }, []);
 
-  console.log(`from the context - language: ${language}`);
+  const loginHandler = (name, email, token, isAdmin, stripeId) => {
+    //  saves the credentials in local storage and in the state
+    // localStorage.setItem('token', token);
+
+    // console.log(username, email, token, isAdmin);
+
+    localStorage.setItem(
+      'nappitello-user',
+      JSON.stringify({
+        name,
+        email,
+        token,
+        isAdmin,
+        stripeId,
+      })
+    );
+
+    setAuthState({
+      name,
+      email,
+      token,
+      isAdmin,
+      stripeId,
+    });
+  };
+
+  const logoutHandler = () => {
+    // localStorage.removeItem('token');
+    localStorage.removeItem('nappitello-user');
+    setAuthState({
+      name: '',
+      email: '',
+      token: '',
+      isAdmin: '',
+      stripeId: '',
+    });
+  };
 
   const value = {
-    language,
+    authState: authState,
+    login: loginHandler,
+    logout: logoutHandler,
   };
 
   return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
