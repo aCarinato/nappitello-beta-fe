@@ -2,10 +2,10 @@
 import { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 // context
-import { Store } from '../context/Store';
-import { useMainContext } from '../context/User';
+import { Store } from '../../context/Store';
+import { useMainContext } from '../../context/User';
 // component
-import PaymentStatus from '../components/Payment/PaymentStatus';
+import PaymentStatus from '../../components/Payment/PaymentStatus';
 // stripe
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -15,7 +15,7 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
-function CompletionPage() {
+function ConfermaPagamentoPage() {
   const { language } = useMainContext();
 
   // console.log(`language from completion.js: ${language}`);
@@ -65,4 +65,4 @@ function CompletionPage() {
   );
 }
 
-export default CompletionPage;
+export default ConfermaPagamentoPage;

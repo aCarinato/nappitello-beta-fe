@@ -32,6 +32,9 @@ function CheckoutForm() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSubmit = async (e) => {
+    // let return_url;
+    // if (locale === 'it') return_url = `/ordine/conferma-pagamento`;
+
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -46,6 +49,7 @@ function CheckoutForm() {
     const payload = await stripe.confirmPayment({
       elements,
       confirmParams: {
+        // return_url: return_url,
         // redirect: 'if_required',
         // Make sure to change this to your payment completion page
         return_url: `${window.location.origin}/completion`,

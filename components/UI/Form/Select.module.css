@@ -1,21 +1,23 @@
 .box-0 {
+  width: 34rem;
   margin: auto;
-  width: fit-content;
 }
 
-.text-label {
+.box-1 {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.select-label {
   font-size: 1.8rem;
   font-weight: bold;
-  display: block;
   width: 34rem;
-  /* margin: 0.8rem auto 0; */
-  text-align: center;
+  /* margin-bottom: 0.2rem; */
 }
 
-.text-input {
+.select-dropdown {
   width: 34rem;
   padding: 0.8rem;
-  /* margin: 0.8rem auto 0; */
   margin-top: 0.8rem;
   border-radius: 0.6rem;
   border: 0.2px solid var(--main-text-color);
@@ -23,26 +25,18 @@
   font-size: 1.8rem;
 }
 
-.text-input-invalid {
+.select-dropdown-invalid {
   width: 34rem;
   padding: 0.8rem;
-  margin: 0.8rem auto 0;
   outline: none !important;
-  border: 1.2px solid var(--main-cta-color);
-  border-radius: 0.6rem;
-  font-family: 'Cormorant Garamond', serif;
+  border: 1px solid var(--main-error-color);
+  background-color: var(--main-input-error-bgr);
+  font-size: 1.8rem;
 }
 
-.text-input:focus {
+.select-dropdown-invalid:focus {
   outline: none !important;
   border: 1.8px solid var(--main-text-color);
-  font-family: 'Cormorant Garamond', serif;
-}
-
-.text-input-invalid:focus {
-  outline: none !important;
-  border: 1.8px solid var(--main-cta-color);
-  font-family: 'Cormorant Garamond', serif;
 }
 
 /* error message */

@@ -1,0 +1,9 @@
+.box-0 {
+  margin: auto;
+}
+
+.next-link {
+  font-weight: bold;
+  text-decoration: underline;
+  cursor: pointer;
+}

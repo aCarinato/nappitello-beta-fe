@@ -33,7 +33,7 @@ function reducer(state, action) {
 
       //   if (typeof window !== undefined)
       localStorage.setItem(
-        'nappi-cart',
+        'nappitello-cart',
         JSON.stringify({ ...state.cart, cartItems })
       );
       return { ...state, cart: { ...state.cart, cartItems } };
@@ -44,7 +44,7 @@ function reducer(state, action) {
       );
       //   if (typeof window !== undefined)
       localStorage.setItem(
-        'nappi-cart',
+        'nappitello-cart',
         JSON.stringify({ ...state.cart, cartItems })
       );
       return { ...state, cart: { ...state.cart, cartItems } };
@@ -96,7 +96,7 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     // const storedCart = JSON.parse(localStorage.getItem('nappi-cart'));
 
-    const storedData = JSON.parse(localStorage.getItem('nappi-cart'));
+    const storedData = JSON.parse(localStorage.getItem('nappitello-cart'));
 
     // if (storedCart !== null) {
     // dispatch({ type: 'CART_LOCALSTORAGE', payload: storedCart });

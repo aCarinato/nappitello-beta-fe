@@ -85,8 +85,8 @@ function MainHeader() {
         <div
           className={classes['container-cart']}
           onClick={() => {
-            if (locale === 'it') router.push('/carrello');
-            if (locale === 'en') router.push('/cart');
+            if (locale === 'it') router.push('/ordine/carrello');
+            if (locale === 'en') router.push('/order/cart');
             if (locale === 'de') router.push('/wagen');
           }}
         >

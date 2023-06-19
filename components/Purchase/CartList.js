@@ -19,8 +19,8 @@ function CartList(props) {
 
   const checkoutHandler = () => {
     if (authState !== null && authState.token !== '') {
-      if (locale === 'en') router.push('/payment');
-      if (locale === 'it') router.push('/pagamento');
+      if (locale === 'en') router.push('/order/shipping');
+      if (locale === 'it') router.push('/ordine/spedizione');
       if (locale === 'de') router.push('/betalen');
     } else {
       router.push('/login');

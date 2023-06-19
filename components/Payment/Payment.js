@@ -1,5 +1,5 @@
 // react / next
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 // stripe
 import { loadStripe } from '@stripe/stripe-js';
@@ -10,6 +10,7 @@ import axios from 'axios';
 import CheckoutForm from './CheckoutForm';
 // context
 import { useMainContext } from '../../context/User';
+import { Store } from '../../context/Store';
 
 // load stripe outside component render to avoid recreating stripe object on every render
 const stripePromise = loadStripe(
@@ -17,6 +18,10 @@ const stripePromise = loadStripe(
 );
 
 function Payment(props) {
+  const { state, dispatch } = useContext(Store);
+  const { cart } = state;
+  const { shippingAddress } = cart;
+
   const { authState } = useMainContext();
 
   const { totalPrice } = props;
@@ -29,6 +34,7 @@ function Payment(props) {
   //   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState('');
   const [loading, setLoading] = useState(false);
+  // const [shipping, setShipping] = useState({});
 
   //   useEffect(() => {
   //     setStripePromise(
@@ -36,10 +42,50 @@ function Payment(props) {
   //     );
   //   }, []);
 
+  // useEffect(() => {
+  //   setShipping({
+  //     name: shippingAddress.fullName,
+  //     address: {
+  //       city: shippingAddress.city,
+  //       country: shippingAddress.country,
+  //       line1: shippingAddress.address,
+  //       postal_code: shippingAddress.postalCode,
+  //       state: shippingAddress.stateOrProvince,
+  //     },
+  //   });
+  // }, [shippingAddress]);
+
+  // console.log(shipping);
+
   const createPaymentIntent = async () => {
+    // const shipping = {
+    //   name: 'Gigetto Mancuso',
+    //   address: {
+    //     city: 'Trieste',
+    //     country: 'IT',
+    //     line1: 'Via Lollo Mulon, 883',
+    //     postal_code: '38118',
+    //     state: 'Friuli Venezia Giulia',
+    //   },
+    // };
+
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API}/stripe/create-payment-intent`,
-      { email: authState.email, stripeId: authState.stripeId, totalPrice }
+      {
+        email: authState.email,
+        stripeId: authState.stripeId,
+        totalPrice,
+        shipping: {
+          name: shippingAddress.fullName,
+          address: {
+            city: shippingAddress.city,
+            country: shippingAddress.country,
+            line1: shippingAddress.address,
+            postal_code: shippingAddress.postalCode,
+            state: shippingAddress.stateOrProvince,
+          },
+        },
+      }
       //   {
       //     headers: {
       //       Authorization: `Bearer ${authState.token}`,
@@ -51,11 +97,13 @@ function Payment(props) {
   };
 
   useEffect(() => {
+    // if (shipping !== {}) {
     createPaymentIntent().then((res) => {
       // const secret = res;
       setClientSecret(res);
       // return secret;
     });
+    // }
   }, []);
 
   const appearance = {

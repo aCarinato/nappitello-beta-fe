@@ -67,7 +67,8 @@ function LoginForm(props) {
             res.data.stripeId
           );
           // router.push(`/profilo/${res.data.username}`);
-          router.push(`/profilo`);
+          if (locale === 'it') router.push(`/profilo`);
+          if (locale === 'en') router.push(`/profile`);
           // console.log(authState);
         }
       } catch (err) {
