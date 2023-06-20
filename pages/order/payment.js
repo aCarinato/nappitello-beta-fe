@@ -6,9 +6,7 @@ import Payment from '../../components/Payment/Payment';
 // context
 import { Store } from '../../context/Store';
 
-// NEW CLIENT SECRET
-
-function PaymentPage() {
+function PymentPage() {
   const { state, dispatch } = useContext(Store);
 
   const {
@@ -30,20 +28,22 @@ function PaymentPage() {
     setTotalPrice(itemsPrice);
   }, [itemsPrice]);
 
+  //   console.log(`totalPrice: ${totalPrice}`);
+
   // routing
   const router = useRouter();
   const { locale } = router;
 
   useEffect(() => {
     if (locale === 'it') {
-      router.push('/pagamento');
+      router.push('/ordine/pagamento');
     }
-    if (locale === 'de') {
-      router.push('/wagen');
-    }
+    // if (locale === 'de') {
+    //   router.push('/wagen');
+    // }
   }, [locale]);
 
   return <div>{totalPrice && <Payment totalPrice={totalPrice} />}</div>;
 }
 
-export default PaymentPage;
+export default PymentPage;

@@ -4,22 +4,22 @@ import { useEffect } from 'react';
 // components
 import ShippingForm from '../../components/Purchase/ShippingForm';
 
-function SpedizionePage() {
+function ShippingPage() {
   const router = useRouter();
   const { locale } = router;
 
   useEffect(() => {
-    if (locale === 'en') {
-      router.push('/order/shipping');
+    if (locale === 'it') {
+      router.push('/ordine/spedizione');
     }
   }, [locale]);
 
   return (
     <div>
-      <h1>Indirizzo di spedizione</h1>
+      <h1>Shipping Address</h1>
       <ShippingForm />
     </div>
   );
 }
 
-export default SpedizionePage;
+export default ShippingPage;

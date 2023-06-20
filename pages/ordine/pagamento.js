@@ -36,11 +36,11 @@ function PagamentoPage() {
 
   useEffect(() => {
     if (locale === 'en') {
-      router.push('/payment');
+      router.push('/order/payment');
     }
-    if (locale === 'de') {
-      router.push('/wagen');
-    }
+    // if (locale === 'de') {
+    //   router.push('/wagen');
+    // }
   }, [locale]);
 
   return <div>{totalPrice && <Payment totalPrice={totalPrice} />}</div>;

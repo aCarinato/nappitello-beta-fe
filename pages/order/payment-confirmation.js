@@ -15,7 +15,7 @@ import { loadStripe } from '@stripe/stripe-js';
 //   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 // );
 
-function ConfermaPagamentoPage() {
+function PaymentConfirmationPage() {
   // const { language } = useMainContext();
 
   // console.log(`language from completion.js: ${language}`);
@@ -47,18 +47,10 @@ function ConfermaPagamentoPage() {
 
   const options = {};
 
-  // useEffect(() => {
-  //   if (locale === 'it') {
-  //     router.push('/pagamento');
-  //   }
-  //   if (locale === 'de') {
-  //     router.push('/wagen');
-  //   }
-  // }, [locale]);
-
   return (
     <div>
-      <h1>Pagamento riuscito</h1>
+      <h1>Payment completed</h1>
+      {/* <h1>{locale === 'en' ? 'Payment completed!' : 'Pagamento riuscito'}</h1> */}
       {/* <h1>
         {stripePromise && (
           <Elements stripe={stripePromise} options={options}>
@@ -70,4 +62,4 @@ function ConfermaPagamentoPage() {
   );
 }
 
-export default ConfermaPagamentoPage;
+export default PaymentConfirmationPage;

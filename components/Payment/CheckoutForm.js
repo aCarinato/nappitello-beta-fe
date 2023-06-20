@@ -13,13 +13,17 @@ import SpinningLoader from '../UI/SpinningLoader';
 import BtnCTA from '../UI/BtnCTA';
 // styles
 import classes from './CheckoutForm.module.css';
-
+// libs
+import axios from 'axios';
 // state
+import { useMainContext } from '../../context/User';
 // import { Store } from '../context/Store';
 
 function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
+  // context
+  const { authState } = useMainContext();
 
   // const { state, dispatch } = useContext(Store);
   // const { cart } = state;
@@ -30,6 +34,29 @@ function CheckoutForm() {
 
   const [message, setMessage] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const createOrder = async () => {
+    try {
+      // create order in database
+      const cart = JSON.parse(localStorage.getItem('nappitello-cart'));
+      // const orderDeatils = { cart };
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/orders/create-new-order`,
+        cart,
+        {
+          headers: {
+            Authorization: `Bearer ${authState.token}`,
+          },
+        }
+      );
+
+      if (res.data.success) {
+        console.log('BELLLAAA');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleSubmit = async (e) => {
     // let return_url;
@@ -46,34 +73,42 @@ function CheckoutForm() {
 
     setIsProcessing(true);
 
-    const payload = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // return_url: return_url,
-        // redirect: 'if_required',
-        // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/completion`,
-      },
-    });
+    await createOrder();
 
-    if (
-      payload.error.type === 'card_error' ||
-      payload.error.type === 'validation_error'
-    ) {
-      console.log('AN ERROR OCCURRED');
-      console.log(payload.error.type);
-      setMessage(payload.error.message);
-    } else {
-      // setMessage('An unexpected error occured.');
-      // dispatch({ type: 'CART_CLEAR_ITEMS' });
-      // localStorage.setItem(
-      //   'nappi-cart',
-      //   JSON.stringify({
-      //     ...cart,
-      //     cartItems: [],
-      //   })
-      // );
+    if (locale === 'it') {
+      const payload = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          // return_url: return_url,
+          // redirect: 'if_required',
+          // Make sure to change this to your payment completion page
+          return_url: `${window.location.origin}/ordine/conferma-pagamento`,
+        },
+      });
+    } else if (locale === 'en') {
+      const payload = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          // return_url: return_url,
+          // redirect: 'if_required',
+          // Make sure to change this to your payment completion page
+          return_url: `${window.location.origin}/order/payment-confirmation`,
+        },
+      });
     }
+
+    // if (
+    //   payload.error.type === 'card_error' ||
+    //   payload.error.type === 'validation_error'
+    // ) {
+    //   console.log('AN ERROR OCCURRED');
+    //   console.log(payload.error.type);
+    //   setMessage(payload.error.message);
+    // } else {
+    //   console.log('HERE I CREATE THE ORDER');
+    //   const localCart = localStorage.getItem('nappitello-cart');
+    //   console.log(localCart);
+    // }
 
     setIsProcessing(false);
   };

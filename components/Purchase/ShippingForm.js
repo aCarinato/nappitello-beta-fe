@@ -30,9 +30,9 @@ function ShippingForm() {
   const [stateOrProvince, setStateOrProvince] = useState('');
 
   const [defaultCountryIdx, setDefaultCountryIdx] = useState('');
-  const [defaultCountryValue, setDefaultCountryValue] = useState('null-value');
+  //   const [defaultCountryValue, setDefaultCountryValue] = useState('null-value');
 
-  const [selectElement, setSelectElement] = useState('');
+  //   const [selectElement, setSelectElement] = useState('');
 
   const router = useRouter();
   const { locale } = router;
@@ -63,7 +63,7 @@ function ShippingForm() {
     setPostalCode(shippingAddress.postalCode);
     setStateOrProvince(shippingAddress.stateOrProvince);
   }, [shippingAddress]);
-  console.log(defaultCountryIdx);
+  //   console.log(defaultCountryIdx);
 
   const setShippingDetails = () => {
     dispatch({
@@ -92,8 +92,8 @@ function ShippingForm() {
         },
       })
     );
-
-    router.push('/ordine/pagamento');
+    if (locale === 'it') router.push('/ordine/pagamento');
+    if (locale === 'en') router.push('/order/payment');
   };
 
   //   console.log(fullName);
@@ -226,7 +226,8 @@ function ShippingForm() {
         // }
       />
       <div onClick={setShippingDetails} className={classes['next-link']}>
-        PAGAMENTO <Icon icon="formkit:arrowright" />
+        {locale === 'it' ? 'PAGAMENTO' : 'PAYMENT'}{' '}
+        <Icon icon="formkit:arrowright" />
       </div>
     </>
   );

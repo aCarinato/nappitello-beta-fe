@@ -33,11 +33,11 @@ function CarrelloPage() {
 
   useEffect(() => {
     if (locale === 'en') {
-      router.push('/cart');
+      router.push('/order/cart');
     }
-    if (locale === 'de') {
-      router.push('/wagen');
-    }
+    // if (locale === 'de') {
+    //   router.push('/wagen');
+    // }
   }, [locale]);
 
   return (
