@@ -1,5 +1,6 @@
 // react / next
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 // context
 import { useMainContext } from '../../context/User';
 // components
@@ -22,6 +23,12 @@ function ProfilePage() {
         <h1>{authState.name}</h1>
         {authState && authState.token.length > 0 && (
           <BtnCTA label="logout" onClickAction={logoutHandler} />
+        )}
+        <br></br>
+        {authState && authState.token.length > 0 && authState.isAdmin && (
+          <div>
+            <Link href="/admin">Admin dashboard</Link>
+          </div>
         )}
 
         {authState && authState.token.length === 0 && (

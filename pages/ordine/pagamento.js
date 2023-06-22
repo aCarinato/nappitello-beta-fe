@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 // components
 import Payment from '../../components/Payment/Payment';
+import UserRoute from '../../components/Routes/UserRoute';
 // context
 import { Store } from '../../context/Store';
 
@@ -43,7 +44,11 @@ function PagamentoPage() {
     // }
   }, [locale]);
 
-  return <div>{totalPrice && <Payment totalPrice={totalPrice} />}</div>;
+  return (
+    <UserRoute>
+      <div>{totalPrice && <Payment totalPrice={totalPrice} />}</div>
+    </UserRoute>
+  );
 }
 
 export default PagamentoPage;

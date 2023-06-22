@@ -10,14 +10,16 @@ import { useMainContext } from '../context/User';
 // contexy
 
 function LoginPage() {
-  const { currentUser } = useMainContext();
+  const { authState, currentUser } = useMainContext();
   const [loginMode, setLoginMode] = useState(true);
 
   const router = useRouter();
   const { locale } = router;
 
   useEffect(() => {
-    if (currentUser) {
+    const localUser = JSON.parse(localStorage.getItem('nappitello-user'));
+    // console.log(localUser);
+    if (localUser && currentUser) {
       if (locale === 'it') {
         router.push('/profilo');
       }
@@ -25,11 +27,10 @@ function LoginPage() {
         router.push('/profile');
       }
     }
-  }, [currentUser]);
-
-  //   const switchModeHandler = () => {
-  //     setLoginMode((prevState) => !prevState);
-  //   };
+    // else {
+    //   location.reload();
+    // }
+  }, []);
 
   return (
     <>

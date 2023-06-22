@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 // components
 import ShippingForm from '../../components/Purchase/ShippingForm';
+import UserRoute from '../../components/Routes/UserRoute';
 
 function ShippingPage() {
   const router = useRouter();
@@ -15,10 +16,12 @@ function ShippingPage() {
   }, [locale]);
 
   return (
-    <div>
-      <h1>Shipping Address</h1>
-      <ShippingForm />
-    </div>
+    <UserRoute>
+      <div>
+        <h1>Shipping Address</h1>
+        <ShippingForm />
+      </div>
+    </UserRoute>
   );
 }
 

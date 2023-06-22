@@ -1,5 +1,5 @@
 // react / next
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useContext, useState, useEffect, useRef } from 'react';
 // libs
 import axios from 'axios';
@@ -15,6 +15,8 @@ export function useMainContext() {
 }
 
 export function UserContextProvider({ children }) {
+  const router = useRouter();
+
   // USER AUTHENTICATION
   const [authState, setAuthState] = useState({
     name: '',
@@ -94,6 +96,7 @@ export function UserContextProvider({ children }) {
 
   const logoutHandler = () => {
     // localStorage.removeItem('token');
+    setCurrentUser(null);
     localStorage.removeItem('nappitello-user');
     setAuthState({
       name: '',
@@ -102,8 +105,67 @@ export function UserContextProvider({ children }) {
       isAdmin: '',
       stripeId: '',
     });
-    setCurrentUser(null);
   };
+
+  // DECODE TOKEN
+  // a and b are javascript Date objects
+  // function dateDiffInDays(a, b) {
+  //   const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+  //   // Discard the time and time-zone information.
+  //   const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  //   const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  //   console.log(`utc1: ${utc1}`);
+  //   console.log(`utc2: ${utc2}`);
+  //   // can be used Math.round
+  //   return Math.floor((utc1 - utc2) / _MS_PER_DAY);
+  // }
+
+  // function dateDiffInSeconds(a, b) {
+  //   const _MS_PER_SECOND = 1000;
+  //   // Discard the time and time-zone information.
+  //   const utc1 = Date.UTC(
+  //     a.getFullYear(),
+  //     a.getMonth(),
+  //     a.getDate(),
+  //     a.getHours(),
+  //     a.getMinutes(),
+  //     a.getSeconds()
+  //   );
+  //   const utc2 = Date.UTC(
+  //     b.getFullYear(),
+  //     b.getMonth(),
+  //     b.getDate(),
+  //     b.getHours(),
+  //     b.getMinutes(),
+  //     b.getSeconds()
+  //   );
+  //   console.log(`utc1: ${utc1}`);
+  //   console.log(`utc2: ${utc2}`);
+  //   // Calculate the difference in seconds
+  //   return Math.floor((utc2 - utc1) / _MS_PER_SECOND);
+  // }
+
+  // useEffect(() => {
+  //   if (
+  //     authState.token &&
+  //     authState.token !== '' &&
+  //     authState.token.length > 0
+  //   ) {
+  //     const decodedToken = jwt_decode(authState.token);
+  //     console.log('I AM EXECUTING - THE CONTEXT TOKEN EXPIRY');
+
+  //     const a = new Date(decodedToken.exp * 1000);
+  //     const b = new Date();
+  //     const difference = dateDiffInSeconds(a, b);
+  //     console.log(difference + ' seconds');
+  //     if (difference > -20) {
+  //       console.log('Token expired');
+  //       // logoutHandler();
+  //       // location.reload();
+  //       // router.push('/login');
+  //     }
+  //   }
+  // }, [authState, authState.token]);
 
   const value = {
     authState: authState,
