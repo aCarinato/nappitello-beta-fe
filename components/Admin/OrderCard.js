@@ -20,12 +20,22 @@ function OrderCard(props) {
       <br></br>
       <p>
         <strong>Pagamento:</strong>{' '}
-        {order.chargeSucceeded ? 'Pagato' : 'Pendente'}
+        <span
+          className={
+            order.chargeSucceeded ? classes['isTrue'] : classes['isFalse']
+          }
+        >
+          {order.chargeSucceeded ? 'Pagato' : 'Pendente'}
+        </span>
       </p>
       <br></br>
       <p>
-        <strong>Evasione:</strong>{' '}
-        {order.isDelivered ? 'Spedito' : 'Da spedire'}
+        <strong>Spedizione:</strong>{' '}
+        <span
+          className={order.isShipped ? classes['isTrue'] : classes['isFalse']}
+        >
+          {order.isShipped ? 'Spedito' : 'Da spedire'}
+        </span>
       </p>
       <br></br>
       <div>

@@ -4,14 +4,14 @@ import React, { useContext, useState, useEffect, useRef } from 'react';
 // libs
 import axios from 'axios';
 
-const mainContext = React.createContext({
+const userContext = React.createContext({
   authState: {},
   login: () => {},
   logout: () => {},
 });
 
 export function useMainContext() {
-  return useContext(mainContext);
+  return useContext(userContext);
 }
 
 export function UserContextProvider({ children }) {
@@ -174,5 +174,5 @@ export function UserContextProvider({ children }) {
     logout: logoutHandler,
   };
 
-  return <mainContext.Provider value={value}>{children}</mainContext.Provider>;
+  return <userContext.Provider value={value}>{children}</userContext.Provider>;
 }

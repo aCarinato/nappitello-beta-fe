@@ -4,3 +4,13 @@
   border: 1px solid var(--main-primary-color);
   padding: 1.2rem;
 }
+
+.isTrue {
+  color: green;
+  font-weight: bold;
+}
+
+.isFalse {
+  color: red;
+  font-weight: bold;
+}

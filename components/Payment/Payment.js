@@ -34,6 +34,7 @@ function Payment(props) {
   //   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState('');
   const [loading, setLoading] = useState(false);
+  const [paymentIntentId, setPaymentIntentId] = useState('');
   // const [shipping, setShipping] = useState({});
 
   //   useEffect(() => {
@@ -93,14 +94,18 @@ function Payment(props) {
       //   }
     );
 
-    return res.data.clientSecret;
+    console.log(res.data);
+
+    return res.data;
   };
 
   useEffect(() => {
     // if (shipping !== {}) {
     createPaymentIntent().then((res) => {
       // const secret = res;
-      setClientSecret(res);
+      // console.log(res)
+      setPaymentIntentId(res.paymentIntentId);
+      setClientSecret(res.clientSecret);
       // return secret;
     });
     // }
@@ -139,7 +144,9 @@ function Payment(props) {
     <div>
       {stripePromise && clientSecret !== '' && (
         <Elements stripe={stripePromise} options={options}>
-          <CheckoutForm />
+          {paymentIntentId.length > 0 && (
+            <CheckoutForm paymentIntentId={paymentIntentId} />
+          )}
         </Elements>
       )}
     </div>

@@ -19,7 +19,9 @@ import axios from 'axios';
 import { useMainContext } from '../../context/User';
 // import { Store } from '../context/Store';
 
-function CheckoutForm() {
+function CheckoutForm(props) {
+  const { paymentIntentId } = props;
+
   const stripe = useStripe();
   const elements = useElements();
   // context
@@ -42,7 +44,7 @@ function CheckoutForm() {
       // const orderDeatils = { cart };
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/orders/create-new-order`,
-        cart,
+        { paymentIntentId, cart },
         {
           headers: {
             Authorization: `Bearer ${authState.token}`,
