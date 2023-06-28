@@ -14,7 +14,7 @@ export const products = [
     descriptionIT: 'Olio extra vergine di oliva di alta qualità',
     descriptionEN: 'High-quality extra-virgin olive oil',
     descriptionDE: 'Hoog qualiteit olif olie',
-    price: 10,
+    price: 5,
     countInStock: 4,
   },
   {
