@@ -21,6 +21,8 @@ function ProfilePage() {
     <UserRoute>
       <div>
         <h1>{authState.name}</h1>
+        <br></br>
+        <Link href="/profilo/ordini">I miei ordini</Link>
         {authState && authState.token.length > 0 && (
           <BtnCTA label="logout" onClickAction={logoutHandler} />
         )}
