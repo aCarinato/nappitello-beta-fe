@@ -1,3 +1,6 @@
+// react/next
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 // libs
 // import {
 //   Document,
@@ -11,11 +14,57 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import { Document, Page } from 'react-pdf';
-import { useState } from 'react';
+import axios from 'axios';
+// components
+import CustomerOrder from '../../../components/Orders/CustomerOrder';
+import SpinningLoader from '../../../components/UI/SpinningLoader';
+// context
+import { useMainContext } from '../../../context/User';
+
 // data
 import logoImage from '../../../public/images/logo/logo-social.png';
 
 function MyOrdersPage() {
+  const { authState } = useMainContext();
+
+  const router = useRouter();
+  const { locale } = router;
+
+  useEffect(() => {
+    if (locale === 'it') router.push('/profilo/ordini');
+  }, [locale]);
+
+  const [orders, setOrders] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const getCustomerOrders = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API}/orders/get-customer-orders`,
+        {
+          headers: {
+            Authorization: `Bearer ${authState.token}`,
+          },
+        }
+      );
+      console.log(data);
+      if (data.success) {
+        setOrders(data.orders);
+      } else {
+        return;
+      }
+      //   return;
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (authState && authState.token.length > 0) getCustomerOrders();
+  }, [authState]);
+
   //   const showDownloadLink = () => {
   //     <PDFDownloadLink
   //       document={
@@ -44,7 +93,15 @@ function MyOrdersPage() {
   const generatePDF = async () => {
     // Create a new PDF document
     const pdfDoc = await PDFDocument.create();
+
+    // Embed the Helvetica font
+    const timesRomanFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+
+    // Add a blank page to the document
     const page = pdfDoc.addPage();
+
+    // // Get the form so we can add fields to it
+    // const form = pdfDoc.getForm();
 
     // Load logo and background images
     const logoImageBytes = await fetchImageBytes(logoImage);
@@ -54,20 +111,62 @@ function MyOrdersPage() {
 
     // Draw logo image
     page.drawImage(logoImageEmbed, {
-      x: 50,
+      x: page.getWidth() / 2 - 37.5,
       y: page.getHeight() - 100,
-      width: 100,
-      height: 100,
+      width: 75,
+      height: 50,
     });
 
-    // Add some text to the page
-    page.drawText('Hello, PDF!', {
+    // const superheroField = form.createTextField('favorite.superhero');
+    // superheroField.setText('One Punch Man');
+    // superheroField.addToPage(page, { x: 50, y: 640 });
+    page.drawText('Invoice number:', {
       x: 50,
-      y: 450,
-      size: 30,
-      font: await pdfDoc.embedFont(StandardFonts.Helvetica),
-      color: rgb(0, 0.53, 0.71),
+      y: 620,
+      size: 12,
+      font: timesRomanFont,
     });
+
+    page.drawText('2342342342342', {
+      x: 340,
+      y: 620,
+      size: 12,
+      font: timesRomanFont,
+    });
+
+    page.drawText('Total Price', {
+      x: 50,
+      y: 560,
+      size: 12,
+      font: timesRomanFont,
+    });
+    // page.drawText('Saturn IV', {
+    //   x: 50,
+    //   y: 500,
+    //   size: 12,
+    //   font: timesRomanFont,
+    // });
+    page.drawText('120 EUR', {
+      x: 340,
+      y: 560,
+      size: 12,
+      font: timesRomanFont,
+    });
+    // page.drawText('Space Launch System', {
+    //   x: 340,
+    //   y: 500,
+    //   size: 12,
+    //   font: timesRomanFont,
+    // });
+
+    // // Add some text to the page
+    // page.drawText('Hello, PDF!', {
+    //   x: 50,
+    //   y: 450,
+    //   size: 30,
+    //   font: timesRomanFont,
+    //   color: rgb(0, 0.53, 0.71),
+    // });
 
     // Serialize the PDF document to a Uint8Array
     const pdfBytes = await pdfDoc.save();
@@ -86,28 +185,21 @@ function MyOrdersPage() {
   };
 
   return (
-    <div>
-      <h1>My Orders</h1>
-      <br></br>
-      {/* <button onClick={showDownloadLink}>Generate PDF</button> */}
-      <button onClick={generatePDF}>Generate PDF</button>
-      {/* {pdfText && (
+    <>
+      {loading ? (
+        <SpinningLoader />
+      ) : (
         <div>
-          <h2>Preview</h2>
-          <Document
-            file={{ url: 'data:application/pdf;base64,' + btoa(pdfText) }}
-            onLoadSuccess={onDocumentLoadSuccess}
-          >
-            <Page pageNumber={pageNumber} />
-          </Document>
-          <p>
-            Page {pageNumber} of {numPages}
-          </p>
+          <h1>My Orders</h1>
+          <br></br>
+          {orders &&
+            orders.map((order) => (
+              <CustomerOrder key={order._id} order={order} />
+            ))}
+          {/* <button onClick={generatePDF}>Generate PDF</button> */}
         </div>
-      )} */}
-
-      {/* <div>{showDownloadLink()}</div> */}
-    </div>
+      )}
+    </>
   );
 }
 

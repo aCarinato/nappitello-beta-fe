@@ -59,16 +59,23 @@ function Payment(props) {
   // console.log(shipping);
 
   const createPaymentIntent = async () => {
-    // const shipping = {
-    //   name: 'Gigetto Mancuso',
-    //   address: {
-    //     city: 'Trieste',
-    //     country: 'IT',
-    //     line1: 'Via Lollo Mulon, 883',
-    //     postal_code: '38118',
-    //     state: 'Friuli Venezia Giulia',
+    // const payload = {
+    //   email: authState.email,
+    //   stripeId: authState.stripeId,
+    //   totalPrice,
+    //   shipping: {
+    //     name: shippingAddress.fullName,
+    //     address: {
+    //       city: shippingAddress.city,
+    //       country: shippingAddress.country,
+    //       line1: shippingAddress.address,
+    //       postal_code: shippingAddress.postalCode,
+    //       state: shippingAddress.stateOrProvince,
+    //     },
     //   },
     // };
+
+    // console.log(payload);
 
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API}/stripe/create-payment-intent`,
@@ -103,7 +110,7 @@ function Payment(props) {
     // if (shipping !== {}) {
     createPaymentIntent().then((res) => {
       // const secret = res;
-      // console.log(res)
+      console.log(res);
       setPaymentIntentId(res.paymentIntentId);
       setClientSecret(res.clientSecret);
       // return secret;
