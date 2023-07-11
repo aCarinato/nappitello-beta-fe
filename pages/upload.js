@@ -12,7 +12,7 @@ function upload() {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/products/list-files`
       );
-      //   console.log(res);
+      console.log(res);
       if (res.data.success) setFileList(res.data.images);
     } catch (error) {
       console.error(error);

@@ -15,9 +15,17 @@ function AdminPage() {
       <div>
         <h1>{authState.name}</h1>
         <br></br>
-        <Link href="/admin/ordini">Ordini</Link>
+        <div>
+          <Link href="/admin/ordini">Ordini</Link>
+        </div>
         <br></br>
-        <Link href="/admin/clienti">Clienti</Link>
+        <div>
+          <Link href="/admin/clienti">Clienti</Link>
+        </div>
+        <br></br>
+        <div>
+          <Link href="/admin/prodotti">Prodotti</Link>
+        </div>
       </div>
     </AdminRoute>
   );
